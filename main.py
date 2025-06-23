@@ -1,8 +1,9 @@
-import pygame
+import pygame, sys
 from constants import *
 from player import *
 from asteroid import *
 from asteroidfield import *
+from circleshape import *
 
 updateable = pygame.sprite.Group()
 drawable = pygame.sprite.Group()
@@ -30,6 +31,10 @@ def main():
         screen.fill("black")
         for obj in updateable:
             obj.update(dt)
+        for obj in asteroids:
+            if obj.is_colliding(player):
+                print('Game over!')
+                sys.exit()
         for obj in drawable:
             obj.draw(screen)
         pygame.display.flip()
