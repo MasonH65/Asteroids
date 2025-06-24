@@ -39,7 +39,9 @@ def main():
             if ast.is_colliding(player):
                 print('Game over!')
                 sys.exit()
-        pygame.sprite.groupcollide(asteroids, shots, True, True, is_group_colliding)
+        collisions = pygame.sprite.groupcollide(asteroids, shots, False, True, is_group_colliding)
+        for col in collisions:
+            col.split()
         for obj in updateable:
             obj.update(dt)
         for obj in drawable:
