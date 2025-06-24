@@ -4,13 +4,19 @@ from player import *
 from asteroid import *
 from asteroidfield import *
 from circleshape import *
+from shot import *
 
 updateable = pygame.sprite.Group()
 drawable = pygame.sprite.Group()
 asteroids = pygame.sprite.Group()
+shots = pygame.sprite.Group()
 Player.containers = (updateable, drawable)
 Asteroid.containers = (asteroids, updateable, drawable)
-AsteroidField. containers = (updateable)
+AsteroidField.containers = (updateable)
+Shot.containers = (shots, updateable, drawable)
+
+def is_group_colliding(sprite1, sprite2):
+    return sprite1.is_colliding(sprite2)
 
 def main():
     pygame.init()
@@ -28,13 +34,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        screen.fill("black")
-        for obj in updateable:
-            obj.update(dt)
-        for obj in asteroids:
-            if obj.is_colliding(player):
+        screen.fill("black")  
+        for ast in asteroids:
+            if ast.is_colliding(player):
                 print('Game over!')
                 sys.exit()
+        pygame.sprite.groupcollide(asteroids, shots, True, True, is_group_colliding)
+        for obj in updateable:
+            obj.update(dt)
         for obj in drawable:
             obj.draw(screen)
         pygame.display.flip()
