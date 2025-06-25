@@ -5,6 +5,7 @@ from asteroid import *
 from asteroidfield import *
 from circleshape import *
 from shot import *
+from scoreboard import *
 
 updateable = pygame.sprite.Group()
 drawable = pygame.sprite.Group()
@@ -14,6 +15,7 @@ Player.containers = (updateable, drawable)
 Asteroid.containers = (asteroids, updateable, drawable)
 AsteroidField.containers = (updateable)
 Shot.containers = (shots, updateable, drawable)
+Scoreboard.containers = (drawable)
 
 def is_group_colliding(sprite1, sprite2):
     return sprite1.is_colliding(sprite2)
@@ -22,7 +24,9 @@ def main():
     pygame.init()
     pulse = pygame.time.Clock() 
     dt = 0
+    score = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    scoreboard = Scoreboard(score)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()
 
@@ -38,10 +42,12 @@ def main():
         for ast in asteroids:
             if ast.is_colliding(player):
                 print('Game over!')
+                print(f'Your score was: {score}')
                 sys.exit()
         collisions = pygame.sprite.groupcollide(asteroids, shots, False, True, is_group_colliding)
         for col in collisions:
             col.split()
+            score += 100
         for obj in updateable:
             obj.update(dt)
         for obj in drawable:
