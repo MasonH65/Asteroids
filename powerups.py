@@ -16,22 +16,22 @@ class SpeedPowerUp(PowerUp):
         super().__init__(x, y, "speed")
         self.color = (255, 255, 0)
         self.multiplier = 1.5
-        self.duration = 5
+        self.duration = 7.5
 
 
 class ShieldPowerUp(PowerUp):
     def __init__(self, x, y):
         super().__init__(x, y, "shield")
         self.color = (0, 0, 255)  
-        self.duration = 5
+        self.duration = 7.5
 
 
 class RapidFirePowerUp(PowerUp):
     def __init__(self, x, y):
         super().__init__(x, y, "rapidfire")
         self.color = (255, 0, 255)  
-        self.multiplier = 0.5 
-        self.duration = 5
+        self.multiplier = 0.75 
+        self.duration = 7.5
 
 
 

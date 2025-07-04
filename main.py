@@ -1,4 +1,4 @@
-import pygame, sys, os
+import pygame, sys, os, random
 from constants import *
 from player import *
 from asteroid import *
@@ -63,7 +63,6 @@ def main():
         powerup_timer += dt
         if powerup_timer > POWERUP_SPAWN_RATE:
             powerup_timer = 0
-            import random
             x = random.randint(POWERUP_RADIUS, SCREEN_WIDTH - POWERUP_RADIUS)
             y = random.randint(POWERUP_RADIUS, SCREEN_HEIGHT - POWERUP_RADIUS)
             types = [SpeedPowerUp, ShieldPowerUp, RapidFirePowerUp]
@@ -75,13 +74,15 @@ def main():
         for ast in asteroids:
             if ast.is_colliding(player):
                 if getattr(player, 'shielded', False):
-                    continue  # Ignore collision if shielded
+                    continue  
                 print('Game over!')
                 print(f'Your score was: {scoreboard.score}')
                 highscores.append(scoreboard.score)
-                highscores = sorted(highscores, reverse=True)[:10]  # Keep top 10
+                highscores = sorted(highscores, reverse=True)[:10]  
                 save_highscores(highscores)
-                
+                print('Highscores:')
+                for i, hs in enumerate(highscores):
+                    print(f"{i + 1}. {hs}")
                 sys.exit()
         collisions = pygame.sprite.groupcollide(asteroids, shots, False, True, is_group_colliding)
         for col in collisions:
